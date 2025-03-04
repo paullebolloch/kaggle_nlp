@@ -1,0 +1,12 @@
+params,mean_test_score,std_test_score
+"{'classifier': MultinomialNB(), 'classifier__alpha': 0.01, 'classifier__fit_prior': True}",0.744372825023739,0.0022604864884652187
+"{'classifier': MultinomialNB(), 'classifier__alpha': 0.1, 'classifier__fit_prior': True}",0.742876529209733,0.002505964010130479
+"{'classifier': MultinomialNB(), 'classifier__alpha': 0.001, 'classifier__fit_prior': True}",0.7422394305146098,0.0019273140846607362
+"{'classifier': MultinomialNB(), 'classifier__alpha': 0.01, 'classifier__fit_prior': False}",0.7421400712274756,0.002646237572674015
+"{'classifier': MultinomialNB(), 'classifier__alpha': 0.1, 'classifier__fit_prior': False}",0.7403456818370933,0.002359826439349344
+"{'classifier': MultinomialNB(), 'classifier__alpha': 0.001, 'classifier__fit_prior': False}",0.7392994394996392,0.0018045537669838518
+"{'classifier': MultinomialNB(), 'classifier__alpha': 1.0, 'classifier__fit_prior': True}",0.7320575964222815,0.0021142917288453633
+"{'classifier': MultinomialNB(), 'classifier__alpha': 1.0, 'classifier__fit_prior': False}",0.7266510564641079,0.0025993877517342945
+"{'classifier': SGDClassifier(), 'classifier__alpha': 0.0001, 'classifier__loss': 'log_loss', 'classifier__penalty': 'l2'}",0.7170069488661597,0.0018745624028947971
+"{'classifier': SGDClassifier(), 'classifier__alpha': 0.001, 'classifier__loss': 'log_loss', 'classifier__penalty': 'l2'}",0.644155995693977,0.005147286827298592
+"{'classifier': SGDClassifier(), 'classifier__alpha': 0.01, 'classifier__loss': 'log_loss', 'classifier__penalty': 'l2'}",0.5632331875595984,0.002826384122810721
