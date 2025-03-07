@@ -1,7 +1,7 @@
 import time
 import torch
 from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
-                          Trainer, TrainingArguments, pipeline)
+                          Trainer, TrainingArguments, AutoModel, pipeline)
 from utils import (load_data, split_data, prepare_datasets, tokenize_function,
                    encode_labels, compute_metrics, get_data_collator)
 
@@ -9,13 +9,40 @@ from utils import (load_data, split_data, prepare_datasets, tokenize_function,
 DATA_FILE = "data/train_submission.csv"
 texts, labels = load_data(DATA_FILE)
 
-# Séparation des ensembles d'entraînement, validation et test
+# faire le split 80% train , 10% validation , 10% test
 train_texts, train_labels, val_texts, val_labels, test_texts, test_labels = split_data(texts, labels)
 
 
 dataset_train, dataset_val, dataset_test = prepare_datasets(train_texts, train_labels, val_texts, val_labels, test_texts, test_labels)
-MODEL_NAME = "xlm-roberta-base"
-tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+
+
+
+from transformers import AutoTokenizer, AutoModel
+
+MODEL_NAMES = {
+    "xlm-roberta": "xlm-roberta-base",
+    "bert-multilingual": "bert-base-multilingual-cased",
+    "rembert": "google/rembert"
+}
+
+def load_model(model_key):
+    if model_key not in MODEL_NAMES:
+        raise ValueError(f"Modèle non supporté : {model_key}")
+    
+    model_name = MODEL_NAMES[model_key]
+    print(f"Chargement du modèle : {model_name}")
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModel.from_pretrained(model_name)
+    return tokenizer, model
+
+
+model_key = "xlm-roberta"  
+MODEL_NAME = MODEL_NAMES[model_key]
+tokenizer, model = load_model(model_key)
+
+print(f"Modèle {model_key} chargé avec succès.")
+
+
 
 # Tokenization
 tokenize_text = tokenize_function(tokenizer)
@@ -70,7 +97,7 @@ classifier = pipeline("text-classification", model="models/xlm-roberta-finetuned
 
 start_time = time.perf_counter()
 predictions = [res["label"] for res in classifier(test_texts.tolist(), truncation=True, max_length=128)]
-print(f"Temps d'inférence : {time.perf_counter() - start_time:.2f} secondes")
+print(f"Temps d'inférence : {time.perf_counter() - start_time:.2f} sec")
 
 from sklearn.metrics import classification_report
 print(classification_report(test_labels.tolist(), predictions, digits=3))

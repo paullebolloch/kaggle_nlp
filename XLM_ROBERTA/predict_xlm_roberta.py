@@ -7,9 +7,9 @@ test_data = test_data.dropna()
 sentences = test_data["Text"].tolist()
 
 device = 0 if torch.cuda.is_available() else -1
-model_ckpt = "models/xlm-roberta-finetuned/checkpoint-2771"
+model_checkpoint = "models/xlm-roberta-finetuned/checkpoint-2771"
 model_pipe = pipeline(
-    "text-classification", model=model_ckpt, device=device, batch_size=64
+    "text-classification", model=model_checkpoint, device=device, batch_size=64
 )
 labels = model_pipe(sentences, truncation=True, max_length=128)
 
